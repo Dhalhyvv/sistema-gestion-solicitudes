@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Usuarios — Delegaciones La Serena{% endblock %}
+
+{% block content %}
+<div class="row align-items-center mb-4">
+    <div class="col-lg-8">
+        <div class="p-4 bg-white rounded-3 border shadow-sm">
+            <h2 class="display-6 fw-bold text-primary">{{ titulo_modulo }}</h2>
+            <p class="lead mb-3">
+                Administración de roles y permisos del personal municipal: administradores, delegados,
+                supervisores, funcionarios y usuarios de consulta.
+            </p>
+            <a class="btn btn-primary btn-lg" href="{% url 'usuarios_lista' %}">Ver personal municipal</a>
+        </div>
+    </div>
+    <div class="col-lg-4 mt-4 mt-lg-0 text-center">
+        <img src="{% static 'img/equipo.svg' %}" alt="Equipo municipal" class="img-fluid rounded shadow-sm" style="max-height: 220px;">
+    </div>
+</div>
+
+<div class="row g-4">
+    <div class="col-md-4">
+        <div class="card h-100">
+            <div class="card-header bg-primary text-white">Resumen</div>
+            <div class="card-body">
+                <p class="mb-1"><strong>Total usuarios:</strong> {{ total_usuarios }}</p>
+                <p class="mb-0"><strong>Roles configurados:</strong> {{ roles_disponibles|length }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card h-100">
+            <div class="card-header bg-secondary text-white">Roles del sistema</div>
+            <ul class="list-group list-group-flush">
+                {% for rol in roles_disponibles %}
+                <li class="list-group-item">{{ rol }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card h-100">
+            <div class="card-header bg-info text-white">Delegaciones</div>
+            <ul class="list-group list-group-flush">
+                {% for d in delegaciones %}
+                <li class="list-group-item">{{ d }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}

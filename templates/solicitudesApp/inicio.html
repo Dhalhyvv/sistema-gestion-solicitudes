@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Solicitudes — Delegaciones La Serena{% endblock %}
+
+{% block content %}
+<div class="row align-items-center mb-4">
+    <div class="col-lg-8">
+        <div class="p-4 bg-white rounded-3 border shadow-sm">
+            <h2 class="display-6 fw-bold text-primary">{{ titulo_modulo }}</h2>
+            <p class="lead mb-3">
+                Plataforma informativa para el registro y seguimiento de solicitudes ciudadanas
+                en las delegaciones territoriales de La Serena.
+            </p>
+            <a class="btn btn-primary btn-lg" href="{% url 'solicitudes_lista' %}">Ver listado de tickets</a>
+        </div>
+    </div>
+    <div class="col-lg-4 mt-4 mt-lg-0 text-center">
+        <img src="{% static 'img/delegaciones.svg' %}" alt="Delegaciones municipales" class="img-fluid rounded shadow-sm" style="max-height: 220px;">
+    </div>
+</div>
+
+<div class="row g-3">
+    <div class="col-md-3">
+        <div class="card text-center border-primary">
+            <div class="card-body">
+                <h3 class="text-primary">{{ total_solicitudes }}</h3>
+                <p class="card-text small mb-0">Total solicitudes</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-center border-warning">
+            <div class="card-body">
+                <h3 class="text-warning">{{ pendientes }}</h3>
+                <p class="card-text small mb-0">Pendientes</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-center border-info">
+            <div class="card-body">
+                <h3 class="text-info">{{ en_proceso }}</h3>
+                <p class="card-text small mb-0">En proceso</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-center border-success">
+            <div class="card-body">
+                <h3 class="text-success">{{ realizadas }}</h3>
+                <p class="card-text small mb-0">Realizadas</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

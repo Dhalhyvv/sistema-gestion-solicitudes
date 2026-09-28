@@ -1,0 +1,76 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Delegaciones La Serena{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+</head>
+<body class="d-flex flex-column min-vh-100 bg-light">
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="{% url 'inicio' %}">
+                <img src="{% static 'img/logo.svg' %}" alt="Logo" width="32" height="32" class="d-inline-block align-text-top me-2">
+                Muni La Serena
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menuPrincipal"
+                    aria-controls="menuPrincipal" aria-expanded="false" aria-label="Alternar navegación">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="menuPrincipal">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown">
+                            Solicitudes
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="{% url 'solicitudes_inicio' %}">Inicio</a></li>
+                            <li><a class="dropdown-item" href="{% url 'solicitudes_lista' %}">Listado de tickets</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown">
+                            Usuarios
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="{% url 'usuarios_inicio' %}">Inicio</a></li>
+                            <li><a class="dropdown-item" href="{% url 'usuarios_lista' %}">Personal municipal</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <header class="bg-white border-bottom py-4 mb-4">
+        <div class="container">
+            <h1 class="h3 mb-1 text-primary">Sistema Integral de Gestión para Delegaciones Municipales</h1>
+            <p class="text-muted mb-0">Municipalidad de La Serena — Seguimiento de solicitudes, tareas y usuarios territoriales</p>
+        </div>
+    </header>
+
+    <main class="container flex-grow-1 pb-5">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="bg-dark text-white py-4 mt-auto">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8">
+                    <p class="mb-1 fw-semibold">Delegaciones Municipales de La Serena</p>
+                    <p class="mb-0 small text-white-50">
+                        Proyecto académico — Gestión territorial, tickets, metas e indicadores de desempeño.
+                    </p>
+                </div>
+                <div class="col-md-4 text-md-end">
+                    <p class="mb-0 small text-white-50">Primavera 2026 · Django + Bootstrap local</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+</body>
+</html>

@@ -1,0 +1,52 @@
+[
+  {
+    "id_usuario": "USR-001",
+    "nombre_completo": "Carlos Mendoza",
+    "rut": "15.420.310-8",
+    "rol": "Funcionario",
+    "delegacion_asignada": "Avenida del Mar",
+    "correo_muni": "cmendoza@laserena.cl",
+    "estado_cuenta": "Activo",
+    "foto_perfil": "img/usuario1.svg"
+  },
+  {
+    "id_usuario": "USR-002",
+    "nombre_completo": "Ana Torres",
+    "rut": "12.890.114-K",
+    "rol": "Administrador del sistema",
+    "delegacion_asignada": "Coordinación General",
+    "correo_muni": "atorres@laserena.cl",
+    "estado_cuenta": "Activo",
+    "foto_perfil": "img/usuario2.svg"
+  },
+  {
+    "id_usuario": "USR-003",
+    "nombre_completo": "María González",
+    "rut": "16.234.567-3",
+    "rol": "Delegado",
+    "delegacion_asignada": "El Faro",
+    "correo_muni": "mgonzalez@laserena.cl",
+    "estado_cuenta": "Activo",
+    "foto_perfil": "img/usuario3.svg"
+  },
+  {
+    "id_usuario": "USR-004",
+    "nombre_completo": "Pedro Soto",
+    "rut": "14.567.890-1",
+    "rol": "Supervisor",
+    "delegacion_asignada": "Centro Histórico",
+    "correo_muni": "psoto@laserena.cl",
+    "estado_cuenta": "Activo",
+    "foto_perfil": "img/usuario4.svg"
+  },
+  {
+    "id_usuario": "USR-005",
+    "nombre_completo": "Laura Rojas",
+    "rut": "18.901.234-5",
+    "rol": "Usuario de consulta",
+    "delegacion_asignada": "Todas las delegaciones",
+    "correo_muni": "lrojas@laserena.cl",
+    "estado_cuenta": "Inactivo",
+    "foto_perfil": "img/usuario5.svg"
+  }
+]

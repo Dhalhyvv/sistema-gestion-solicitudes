@@ -1,0 +1,62 @@
+[
+  {
+    "id_solicitud": "SOL-2026-001",
+    "fecha_registro": "2026-08-25",
+    "fecha_comprometida": "2026-09-05",
+    "delegacion_territorial": "Avenida del Mar",
+    "tipo_categoria": "Seguridad y Alumbrado",
+    "descripcion_requerimiento": "Reparación de luminaria LED dañada en el sector costero frente a calle Los Clarines.",
+    "area_responsable": "Seguridad",
+    "funcionario_responsable": "Carlos Mendoza",
+    "solicitante_muni": "Vecino sector costero",
+    "estado_tramite": "En proceso",
+    "nivel_prioridad": "Alta",
+    "avance_porcentaje": 65,
+    "imagen_evidencia": "img/luminaria.svg"
+  },
+  {
+    "id_solicitud": "SOL-2026-002",
+    "fecha_registro": "2026-08-28",
+    "fecha_comprometida": "2026-09-10",
+    "delegacion_territorial": "Las Compañías",
+    "tipo_categoria": "Aseo y Ornato",
+    "descripcion_requerimiento": "Retiro de escombros y basura acumulada en terreno desocupado en pasaje El Boldo.",
+    "area_responsable": "Servicios a la comunidad",
+    "funcionario_responsable": "Ana Torres",
+    "solicitante_muni": "JJVV Las Compañías",
+    "estado_tramite": "Pendiente",
+    "nivel_prioridad": "Media",
+    "avance_porcentaje": 10,
+    "imagen_evidencia": "img/limpieza.svg"
+  },
+  {
+    "id_solicitud": "SOL-2026-003",
+    "fecha_registro": "2026-08-15",
+    "fecha_comprometida": "2026-08-28",
+    "delegacion_territorial": "El Faro",
+    "tipo_categoria": "Gestión Social",
+    "descripcion_requerimiento": "Coordinación de taller comunitario de prevención de violencia intrafamiliar.",
+    "area_responsable": "Gestión social",
+    "funcionario_responsable": "María González",
+    "solicitante_muni": "Organización comunitaria El Faro",
+    "estado_tramite": "Realizado",
+    "nivel_prioridad": "Alta",
+    "avance_porcentaje": 100,
+    "imagen_evidencia": "img/taller.svg"
+  },
+  {
+    "id_solicitud": "SOL-2026-004",
+    "fecha_registro": "2026-08-20",
+    "fecha_comprometida": "2026-08-25",
+    "delegacion_territorial": "Centro Histórico",
+    "tipo_categoria": "Organizaciones Comunitarias",
+    "descripcion_requerimiento": "Apoyo logístico para feria de emprendimiento local en Plaza de Armas.",
+    "area_responsable": "Organizaciones comunitarias",
+    "funcionario_responsable": "Pedro Soto",
+    "solicitante_muni": "Municipalidad - Coordinación territorial",
+    "estado_tramite": "Vencido",
+    "nivel_prioridad": "Media",
+    "avance_porcentaje": 40,
+    "imagen_evidencia": "img/feria.svg"
+  }
+]

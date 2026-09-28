@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240" width="400" height="240">
+  <rect width="400" height="240" fill="#e7f1ff"/>
+  <rect x="40" y="80" width="80" height="100" fill="#0d6efd" opacity="0.8"/>
+  <rect x="160" y="60" width="80" height="120" fill="#198754" opacity="0.8"/>
+  <rect x="280" y="90" width="80" height="90" fill="#ffc107" opacity="0.9"/>
+  <circle cx="200" cy="40" r="24" fill="#0d6efd"/>
+  <text x="200" y="230" text-anchor="middle" fill="#333" font-size="16" font-family="Arial,sans-serif">Delegaciones Municipales</text>
+</svg>

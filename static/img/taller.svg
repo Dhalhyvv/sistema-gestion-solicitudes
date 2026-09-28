@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240" width="400" height="240">
+  <rect width="400" height="240" fill="#fce4ec"/>
+  <rect x="60" y="60" width="280" height="120" rx="8" fill="#fff" stroke="#e91e63"/>
+  <circle cx="120" cy="120" r="30" fill="#f48fb1"/>
+  <circle cx="200" cy="120" r="30" fill="#f06292"/>
+  <circle cx="280" cy="120" r="30" fill="#ec407a"/>
+  <text x="200" y="230" text-anchor="middle" fill="#880e4f" font-size="14" font-family="Arial,sans-serif">Taller comunitario</text>
+</svg>

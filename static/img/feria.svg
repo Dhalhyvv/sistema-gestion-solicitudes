@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240" width="400" height="240">
+  <rect width="400" height="240" fill="#fff3e0"/>
+  <rect x="50" y="80" width="300" height="100" fill="#ff9800" opacity="0.3"/>
+  <rect x="80" y="100" width="60" height="60" fill="#ff5722"/>
+  <rect x="170" y="100" width="60" height="60" fill="#ff9800"/>
+  <rect x="260" y="100" width="60" height="60" fill="#ffc107"/>
+  <text x="200" y="230" text-anchor="middle" fill="#e65100" font-size="14" font-family="Arial,sans-serif">Feria emprendimiento</text>
+</svg>

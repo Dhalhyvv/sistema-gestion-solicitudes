@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Personal Municipal — La Serena{% endblock %}
+
+{% block content %}
+<h2 class="mb-3">Personal Municipal y Usuarios del Sistema</h2>
+
+<div class="row mb-4">
+    <div class="col-md-6">
+        <div class="alert alert-info mb-0">
+            Cuentas <strong>activas</strong>: {{ cantidad_activos }}
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="alert alert-primary mb-0">
+            Usuarios con rol <strong>administrador</strong>: {{ cantidad_administradores }}
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    {% for u in usuarios %}
+    <div class="col-md-6 col-lg-4 mb-4">
+        <div class="card h-100 shadow-sm">
+            <img src="{% static u.foto_perfil %}" class="card-img-top" style="height: 160px; object-fit: cover;" alt="{{ u.nombre_completo }}">
+            <div class="card-body">
+                <h5 class="card-title">{{ u.nombre_completo }}</h5>
+                <p class="card-text text-muted small mb-2">{{ u.correo_muni }}</p>
+                <ul class="list-group list-group-flush small">
+                    <li class="list-group-item"><strong>RUT:</strong> {{ u.rut }}</li>
+                    <li class="list-group-item"><strong>Rol:</strong> {{ u.rol }}</li>
+                    <li class="list-group-item"><strong>Delegación:</strong> {{ u.delegacion_asignada }}</li>
+                    <li class="list-group-item">
+                        <strong>Estado:</strong>
+                        {% if u.estado_cuenta == 'Activo' %}
+                        <span class="badge bg-success">{{ u.estado_cuenta }}</span>
+                        {% else %}
+                        <span class="badge bg-secondary">{{ u.estado_cuenta }}</span>
+                        {% endif %}
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <div class="col-12">
+        <div class="alert alert-info">No hay usuarios registrados en el archivo JSON.</div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
