@@ -6,6 +6,18 @@
 {% block content %}
 <h2 class="mb-3">Personal Municipal y Usuarios del Sistema</h2>
 
+<div class="row g-2 mb-4">
+    <div class="col-auto">
+        <a href="{% url 'admin:usuariosApp_usuario_add' %}" class="btn btn-primary">Agregar usuario</a>
+    </div>
+    <div class="col">
+        <form action="{% url 'admin:usuariosApp_usuario_changelist' %}" method="get" class="input-group">
+            <input type="text" name="q" class="form-control" placeholder="Buscar usuario...">
+            <button type="submit" class="btn btn-outline-primary">Buscar</button>
+        </form>
+    </div>
+</div>
+
 <div class="row mb-4">
     <div class="col-md-6">
         <div class="alert alert-info mb-0">
@@ -27,7 +39,7 @@
             <div class="card-body">
                 <h5 class="card-title">{{ u.nombre_completo }}</h5>
                 <p class="card-text text-muted small mb-2">{{ u.correo_muni }}</p>
-                <ul class="list-group list-group-flush small">
+                <ul class="list-group list-group-flush small mb-3">
                     <li class="list-group-item"><strong>RUT:</strong> {{ u.rut }}</li>
                     <li class="list-group-item"><strong>Rol:</strong> {{ u.rol }}</li>
                     <li class="list-group-item"><strong>Delegación:</strong> {{ u.delegacion_asignada }}</li>
@@ -40,12 +52,16 @@
                         {% endif %}
                     </li>
                 </ul>
+                <div class="d-flex gap-2">
+                    <a href="{% url 'admin:usuariosApp_usuario_change' u.pk %}" class="btn btn-secondary btn-sm">Modificar</a>
+                    <a href="{% url 'admin:usuariosApp_usuario_delete' u.pk %}" class="btn btn-danger btn-sm">Eliminar</a>
+                </div>
             </div>
         </div>
     </div>
     {% empty %}
     <div class="col-12">
-        <div class="alert alert-info">No hay usuarios registrados en el archivo JSON.</div>
+        <div class="alert alert-info">No hay usuarios registrados en la base de datos.</div>
     </div>
     {% endfor %}
 </div>
