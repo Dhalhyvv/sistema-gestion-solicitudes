@@ -1,10 +1,11 @@
-from django.contrib import admin
-from django.urls import path, include
+from django.urls import include, path
 from django.views.generic import RedirectView
 
+# Sin Django Admin: toda la gestión se hace con vistas y templates propios.
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', RedirectView.as_view(url='/solicitudes/', permanent=False), name='inicio'),
-    path('usuarios/', include('usuariosApp.urls')),
+    path('', RedirectView.as_view(pattern_name='dashboard', permanent=False), name='inicio'),
+    path('', include('usuariosApp.urls')),
     path('solicitudes/', include('solicitudesApp.urls')),
 ]
+
+handler403 = 'usuariosApp.views.error_403'
