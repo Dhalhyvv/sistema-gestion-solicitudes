@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% block title %}Dashboard Administrativo{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2 class="mb-0">Dashboard Administrativo <span class="badge bg-secondary">Permisos mínimos</span></h2>
+    <span class="text-muted small">Bienvenido, {{ user.get_full_name|default:user.username }}</span>
+</div>
+
+<div class="row g-3 mb-4">
+    <div class="col-md-4"><div class="card text-center border-primary"><div class="card-body"><h3 class="text-primary">{{ total_solicitudes }}</h3><p class="card-text small mb-0">Solicitudes en el sistema</p></div></div></div>
+    <div class="col-md-4"><div class="card text-center border-warning"><div class="card-body"><h3 class="text-warning">{{ pendientes }}</h3><p class="card-text small mb-0">Pendientes</p></div></div></div>
+    <div class="col-md-4"><div class="card text-center border-info"><div class="card-body"><h3 class="text-info">{{ en_proceso }}</h3><p class="card-text small mb-0">En proceso</p></div></div></div>
+</div>
+
+<div class="row g-4">
+    <div class="col-lg-4">
+        <div class="card shadow-sm h-100">
+            <div class="card-header bg-primary text-white">Funcionalidades asignadas</div>
+            <div class="card-body d-grid gap-2">
+                <a class="btn btn-outline-primary" href="{% url 'solicitud_lista' %}">Consultar solicitudes</a>
+                <a class="btn btn-outline-primary" href="{% url 'solicitud_crear' %}">Registrar nueva solicitud</a>
+                <a class="btn btn-outline-success" href="{% url 'atencion_nueva' %}">Registrar atención</a>
+                <a class="btn btn-outline-secondary" href="{% url 'delegacion_lista' %}">Ver delegaciones</a>
+                <a class="btn btn-outline-secondary" href="{% url 'categoria_lista' %}">Ver categorías</a>
+                <div class="alert alert-secondary small mb-0">Operaciones críticas restringidas: no puede modificar ni eliminar registros, ni acceder a funcionarios o usuarios del sistema.</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-8">
+        <div class="card shadow-sm mb-4">
+            <div class="card-header">{% if funcionario %}Mis solicitudes abiertas ({{ funcionario.nombre_completo }}){% else %}Solicitudes abiertas más próximas a vencer{% endif %}</div>
+            <div class="table-responsive">
+                <table class="table table-sm align-middle mb-0">
+                    <thead class="table-light"><tr><th>N°</th><th>Categoría</th><th>Compromiso</th><th>Estado</th><th></th></tr></thead>
+                    <tbody>
+                    {% for s in mis_solicitudes %}
+                        <tr>
+                            <td>{{ s.id_solicitud }}</td><td>{{ s.categoria|default:"—" }}</td>
+                            <td>{{ s.fecha_comprometida|date:"d-m-Y" }} <span class="badge bg-{{ s.semaforo_color }}">{{ s.semaforo_etiqueta }}</span></td>
+                            <td>{{ s.estado_tramite }}</td>
+                            <td class="text-end text-nowrap"><a class="btn btn-sm btn-outline-info" href="{% url 'solicitud_detalle' s.pk %}">Ver</a>
+                                <a class="btn btn-sm btn-outline-success" href="{% url 'atencion_solicitud' s.pk %}">Atender</a></td>
+                        </tr>
+                    {% empty %}<tr><td colspan="5" class="text-center text-muted py-3">No hay solicitudes abiertas asignadas.</td></tr>{% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="card shadow-sm">
+            <div class="card-header">Mis últimas atenciones registradas</div>
+            <ul class="list-group list-group-flush">
+                {% for a in mis_atenciones %}<li class="list-group-item small"><strong>{{ a.solicitud }}</strong> · {{ a.estado_resultante }} ({{ a.avance_resultante }}%) <span class="text-muted">— {{ a.fecha_hora|date:"d-m-Y H:i" }}</span></li>{% empty %}<li class="list-group-item text-muted">Aún no ha registrado atenciones.</li>{% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -15,32 +15,62 @@
                 <img src="{% static 'img/logo.svg' %}" alt="Logo" width="32" height="32" class="d-inline-block align-text-top me-2">
                 Muni La Serena
             </a>
+            {% if user.is_authenticated %}
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menuPrincipal"
                     aria-controls="menuPrincipal" aria-expanded="false" aria-label="Alternar navegación">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="menuPrincipal">
-                <ul class="navbar-nav ms-auto">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item"><a class="nav-link text-white" href="{% url 'dashboard' %}">Dashboard</a></li>
+
+                    {% if perms.solicitudesApp.view_solicitud %}
+                    <li class="nav-item"><a class="nav-link text-white" href="{% url 'solicitud_lista' %}">Solicitudes</a></li>
+                    {% endif %}
+
+                    {% if perms.solicitudesApp.view_atencionsolicitud %}
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown">
-                            Solicitudes
-                        </a>
+                        <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown">Transacciones</a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="{% url 'solicitudes_inicio' %}">Inicio</a></li>
-                            <li><a class="dropdown-item" href="{% url 'solicitudes_lista' %}">Listado de tickets</a></li>
+                            {% if perms.solicitudesApp.add_atencionsolicitud %}
+                            <li><a class="dropdown-item" href="{% url 'atencion_nueva' %}">Registrar atención</a></li>
+                            {% endif %}
+                            <li><a class="dropdown-item" href="{% url 'atencion_lista' %}">Historial de atenciones</a></li>
                         </ul>
                     </li>
+                    {% endif %}
+
+                    {% if perms.solicitudesApp.view_delegacion or perms.solicitudesApp.view_categoria or perms.usuariosApp.view_usuario %}
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown">
-                            Usuarios
-                        </a>
+                        <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown">Mantenedores</a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="{% url 'usuarios_inicio' %}">Inicio</a></li>
-                            <li><a class="dropdown-item" href="{% url 'usuarios_lista' %}">Personal municipal</a></li>
+                            {% if perms.solicitudesApp.view_delegacion %}<li><a class="dropdown-item" href="{% url 'delegacion_lista' %}">Delegaciones</a></li>{% endif %}
+                            {% if perms.solicitudesApp.view_categoria %}<li><a class="dropdown-item" href="{% url 'categoria_lista' %}">Categorías</a></li>{% endif %}
+                            {% if perms.usuariosApp.view_usuario %}<li><a class="dropdown-item" href="{% url 'funcionario_lista' %}">Funcionarios</a></li>{% endif %}
                         </ul>
+                    </li>
+                    {% endif %}
+
+                    {% if perms.auth.view_user %}
+                    <li class="nav-item"><a class="nav-link text-white" href="{% url 'cuenta_lista' %}">Usuarios del sistema</a></li>
+                    {% endif %}
+                </ul>
+                <ul class="navbar-nav ms-auto align-items-lg-center">
+                    <li class="nav-item me-lg-3">
+                        <span class="navbar-text text-white small">
+                            {{ user.get_full_name|default:user.username }}
+                            <span class="badge bg-light text-primary ms-1">{{ perfil_actual|default:"Sin perfil" }}</span>
+                        </span>
+                    </li>
+                    <li class="nav-item">
+                        <form method="post" action="{% url 'logout' %}" class="d-inline">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-outline-light btn-sm">Cerrar sesión</button>
+                        </form>
                     </li>
                 </ul>
             </div>
+            {% endif %}
         </div>
     </nav>
 
@@ -52,6 +82,12 @@
     </header>
 
     <main class="container flex-grow-1 pb-5">
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+        </div>
+        {% endfor %}
         {% block content %}{% endblock %}
     </main>
 
@@ -60,12 +96,10 @@
             <div class="row">
                 <div class="col-md-8">
                     <p class="mb-1 fw-semibold">Delegaciones Municipales de La Serena</p>
-                    <p class="mb-0 small text-white-50">
-                        Proyecto académico — Gestión territorial, tickets, metas e indicadores de desempeño.
-                    </p>
+                    <p class="mb-0 small text-white-50">Proyecto académico — Gestión territorial, tickets, metas e indicadores de desempeño.</p>
                 </div>
                 <div class="col-md-4 text-md-end">
-                    <p class="mb-0 small text-white-50">Primavera 2026 · Django + Bootstrap local</p>
+                    <p class="mb-0 small text-white-50">Primavera 2026 · Django + Bootstrap</p>
                 </div>
             </div>
         </div>

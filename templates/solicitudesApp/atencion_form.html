@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block title %}{{ titulo }}{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card shadow-sm">
+            <div class="card-header bg-success text-white">
+                <h2 class="h5 mb-0">{{ titulo }}{% if solicitud %} — {{ solicitud.id_solicitud }}{% endif %}</h2>
+            </div>
+            <div class="card-body">
+                {% if solicitud %}
+                <div class="alert alert-info small">
+                    <strong>{{ solicitud.categoria|default:"" }}</strong> · {{ solicitud.delegacion|default:"" }}<br>
+                    {{ solicitud.descripcion_requerimiento }}<br>
+                    Estado actual: <strong>{{ solicitud.estado_tramite }}</strong> · Avance actual: <strong>{{ solicitud.avance_porcentaje }}%</strong>
+                </div>
+                {% endif %}
+                <p class="text-muted small">Esta operación crea el registro de atención y actualiza el estado, el avance y el responsable de la solicitud en una sola transacción.</p>
+                <form method="post" novalidate>
+                    {% csrf_token %}
+                    {% if form.non_field_errors %}<div class="alert alert-danger">{{ form.non_field_errors }}</div>{% endif %}
+                    {% for field in form %}
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold" for="{{ field.id_for_label }}">{{ field.label }} <span class="text-danger">*</span></label>
+                        {{ field }}
+                        {% if field.help_text %}<div class="form-text">{{ field.help_text }}</div>{% endif %}
+                        {% for error in field.errors %}<div class="text-danger small">{{ error }}</div>{% endfor %}
+                    </div>
+                    {% endfor %}
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-success">Registrar atención</button>
+                        <a class="btn btn-outline-secondary" href="{% if solicitud %}{% url 'solicitud_detalle' solicitud.pk %}{% else %}{% url 'solicitud_lista' %}{% endif %}">Cancelar</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

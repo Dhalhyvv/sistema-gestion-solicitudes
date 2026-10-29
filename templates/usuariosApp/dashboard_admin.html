@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% block title %}Dashboard Administrador{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2 class="mb-0">Dashboard Administrador <span class="badge bg-danger">Acceso total</span></h2>
+    <span class="text-muted small">Bienvenido, {{ user.get_full_name|default:user.username }}</span>
+</div>
+
+{% include 'usuariosApp/_kpis.html' %}
+
+<div class="row g-3 mb-4">
+    <div class="col-6 col-md-3"><div class="card text-center"><div class="card-body"><h4>{{ vencidas }}</h4><p class="small mb-0 text-danger">Vencidas</p></div></div></div>
+    <div class="col-6 col-md-3"><div class="card text-center"><div class="card-body"><h4>{{ urgentes }}</h4><p class="small mb-0 text-warning">Prioridad alta abiertas</p></div></div></div>
+    <div class="col-6 col-md-3"><div class="card text-center"><div class="card-body"><h4>{{ avance_promedio }}%</h4><p class="small mb-0">Avance promedio</p></div></div></div>
+    <div class="col-6 col-md-3"><div class="card text-center"><div class="card-body"><h4>{{ total_atenciones }}</h4><p class="small mb-0">Atenciones registradas</p></div></div></div>
+</div>
+
+<div class="row g-4 mb-4">
+    <div class="col-lg-8">
+        <div class="card h-100 shadow-sm">
+            <div class="card-header bg-primary text-white">Accesos del Administrador</div>
+            <div class="card-body">
+                <div class="row g-2">
+                    <div class="col-md-4"><div class="fw-semibold mb-1">Mantenedores</div>
+                        <div class="d-grid gap-1">
+                            <a class="btn btn-outline-primary btn-sm" href="{% url 'solicitud_lista' %}">Solicitudes ({{ total_solicitudes }})</a>
+                            <a class="btn btn-outline-primary btn-sm" href="{% url 'delegacion_lista' %}">Delegaciones ({{ total_delegaciones }})</a>
+                            <a class="btn btn-outline-primary btn-sm" href="{% url 'categoria_lista' %}">Categorías ({{ total_categorias }})</a>
+                            <a class="btn btn-outline-primary btn-sm" href="{% url 'funcionario_lista' %}">Funcionarios ({{ total_funcionarios }})</a>
+                        </div></div>
+                    <div class="col-md-4"><div class="fw-semibold mb-1">Transacciones</div>
+                        <div class="d-grid gap-1">
+                            <a class="btn btn-outline-success btn-sm" href="{% url 'atencion_nueva' %}">Registrar atención</a>
+                            <a class="btn btn-outline-success btn-sm" href="{% url 'atencion_lista' %}">Historial de atenciones</a>
+                        </div></div>
+                    <div class="col-md-4"><div class="fw-semibold mb-1">Gestión de usuarios</div>
+                        <div class="d-grid gap-1">
+                            <a class="btn btn-outline-danger btn-sm" href="{% url 'cuenta_lista' %}">Usuarios del sistema ({{ total_cuentas }})</a>
+                            <a class="btn btn-outline-danger btn-sm" href="{% url 'cuenta_crear' %}">Crear usuario / asignar perfil</a>
+                        </div></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="card h-100 shadow-sm">
+            <div class="card-header">Usuarios por perfil ({{ cuentas_activas }}/{{ total_cuentas }} activos)</div>
+            <ul class="list-group list-group-flush">
+                {% for c in cuentas_por_perfil %}
+                <li class="list-group-item d-flex justify-content-between">{{ c.groups__name|default:"Sin perfil" }}<span class="badge bg-primary">{{ c.n }}</span></li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4">
+    <div class="col-lg-4">
+        <div class="card shadow-sm h-100"><div class="card-header">Solicitudes por delegación</div>
+            <ul class="list-group list-group-flush">
+                {% for d in por_delegacion %}<li class="list-group-item d-flex justify-content-between">{{ d.nombre }}<span class="badge bg-secondary">{{ d.n }}</span></li>{% empty %}<li class="list-group-item text-muted">Sin datos</li>{% endfor %}
+            </ul></div>
+    </div>
+    <div class="col-lg-4">
+        <div class="card shadow-sm h-100"><div class="card-header">Solicitudes por categoría</div>
+            <ul class="list-group list-group-flush">
+                {% for c in por_categoria %}<li class="list-group-item d-flex justify-content-between">{{ c.nombre }}<span class="badge bg-secondary">{{ c.n }}</span></li>{% empty %}<li class="list-group-item text-muted">Sin datos</li>{% endfor %}
+            </ul></div>
+    </div>
+    <div class="col-lg-4">
+        <div class="card shadow-sm h-100"><div class="card-header">Últimas atenciones</div>
+            <ul class="list-group list-group-flush">
+                {% for a in ultimas_atenciones %}<li class="list-group-item small"><strong>{{ a.solicitud }}</strong> · {{ a.estado_resultante }} ({{ a.avance_resultante }}%)<br><span class="text-muted">{{ a.fecha_hora|date:"d-m-Y H:i" }} · {{ a.registrado_por|default:"—" }}</span></li>{% empty %}<li class="list-group-item text-muted">Sin atenciones</li>{% endfor %}
+            </ul></div>
+    </div>
+</div>
+{% endblock %}

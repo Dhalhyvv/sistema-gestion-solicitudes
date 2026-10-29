@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Solicitud {{ object.id_solicitud }}{% endblock %}
+{% block content %}
+{% with sem=object.semaforo %}
+<div class="d-flex flex-wrap justify-content-between align-items-center mb-3 gap-2">
+    <h2 class="mb-0">Solicitud {{ object.id_solicitud }} <span class="badge bg-{{ sem.0 }}">{{ sem.1 }}</span></h2>
+    <div class="d-flex gap-2">
+        {% if puede_atender %}<a class="btn btn-success" href="{% url 'atencion_solicitud' object.pk %}">Registrar atención</a>{% endif %}
+        {% if perms.solicitudesApp.change_solicitud %}<a class="btn btn-outline-secondary" href="{% url 'solicitud_editar' object.pk %}">Editar</a>{% endif %}
+        <a class="btn btn-outline-primary" href="{% url 'solicitud_lista' %}">Volver</a>
+    </div>
+</div>
+
+<div class="row g-4">
+    <div class="col-lg-7">
+        <div class="card shadow-sm h-100">
+            <img src="{% static object.imagen_evidencia %}" class="card-img-top" style="height:200px;object-fit:cover;" alt="Evidencia">
+            <div class="card-body">
+                <h5>{{ object.categoria|default:"Sin categoría" }}</h5>
+                <p>{{ object.descripcion_requerimiento }}</p>
+                <div class="progress mb-2" role="progressbar" aria-valuenow="{{ object.avance_porcentaje }}" aria-valuemin="0" aria-valuemax="100">
+                    <div class="progress-bar bg-{{ sem.0 }}" style="width: {{ object.avance_porcentaje }}%">{{ object.avance_porcentaje }}%</div>
+                </div>
+            </div>
+            <ul class="list-group list-group-flush small">
+                <li class="list-group-item"><strong>Delegación:</strong> {{ object.delegacion|default:"—" }}</li>
+                <li class="list-group-item"><strong>Área responsable:</strong> {{ object.area_responsable }}</li>
+                <li class="list-group-item"><strong>Funcionario responsable:</strong> {{ object.funcionario_responsable|default:"Sin asignar" }}</li>
+                <li class="list-group-item"><strong>Solicitante:</strong> {{ object.solicitante_muni }}</li>
+                <li class="list-group-item"><strong>Estado:</strong> {{ object.estado_tramite }} · <strong>Prioridad:</strong> {{ object.nivel_prioridad }}</li>
+                <li class="list-group-item"><strong>Registro:</strong> {{ object.fecha_registro|date:"d-m-Y" }} · <strong>Compromiso:</strong> {{ object.fecha_comprometida|date:"d-m-Y" }}</li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-lg-5">
+        <div class="card shadow-sm h-100">
+            <div class="card-header">Historial de atenciones ({{ atenciones|length }})</div>
+            <ul class="list-group list-group-flush">
+                {% for a in atenciones %}
+                <li class="list-group-item">
+                    <div class="d-flex justify-content-between small text-muted">
+                        <span>{{ a.fecha_hora|date:"d-m-Y H:i" }}</span>
+                        <span>{{ a.registrado_por|default:"—" }}</span>
+                    </div>
+                    <div><strong>{{ a.estado_anterior }} → {{ a.estado_resultante }}</strong> · {{ a.avance_anterior }}% → {{ a.avance_resultante }}%</div>
+                    <div class="small">Atendió: {{ a.funcionario|default:"—" }}</div>
+                    <div>{{ a.observacion }}</div>
+                </li>
+                {% empty %}
+                <li class="list-group-item text-muted">Sin atenciones registradas.</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+{% endwith %}
+{% endblock %}

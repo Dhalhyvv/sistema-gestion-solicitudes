@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block title %}Acceso denegado{% endblock %}
+{% block content %}
+<div class="text-center py-5">
+    <h2 class="display-5 text-danger">403 — Acceso denegado</h2>
+    <p class="lead">Su perfil <strong>{{ perfil_actual|default:"(sin perfil)" }}</strong> no tiene permiso para realizar esta operación.</p>
+    <a class="btn btn-primary" href="{% url 'dashboard' %}">Volver al dashboard</a>
+</div>
+{% endblock %}
