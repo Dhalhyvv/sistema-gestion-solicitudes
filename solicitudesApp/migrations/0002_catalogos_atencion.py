@@ -3,6 +3,50 @@ from django.conf import settings
 from django.db import migrations, models
 
 
+def migrar_catalogos_legacy(apps, schema_editor):
+    """Copia los nombres existentes a los catálogos antes de quitar las columnas antiguas."""
+    alias = schema_editor.connection.alias
+    Solicitud = apps.get_model('solicitudesApp', 'Solicitud')
+    Delegacion = apps.get_model('solicitudesApp', 'Delegacion')
+    Categoria = apps.get_model('solicitudesApp', 'Categoria')
+
+    for solicitud in Solicitud.objects.using(alias).all().iterator():
+        nombre_delegacion = (solicitud.delegacion_territorial or '').strip()
+        nombre_categoria = (solicitud.tipo_categoria or '').strip()
+
+        if nombre_delegacion:
+            delegacion, _ = Delegacion.objects.using(alias).get_or_create(
+                nombre=nombre_delegacion,
+                defaults={'descripcion': f'Delegación {nombre_delegacion}'},
+            )
+            solicitud.delegacion_id = delegacion.pk
+
+        if nombre_categoria:
+            categoria, _ = Categoria.objects.using(alias).get_or_create(
+                nombre=nombre_categoria,
+                defaults={'descripcion': f'Solicitudes de {nombre_categoria.lower()}'},
+            )
+            solicitud.categoria_id = categoria.pk
+
+        solicitud.save(using=alias, update_fields=['delegacion', 'categoria'])
+
+
+def restaurar_catalogos_legacy(apps, schema_editor):
+    """Restaura los nombres antiguos si se revierte esta migración."""
+    alias = schema_editor.connection.alias
+    Solicitud = apps.get_model('solicitudesApp', 'Solicitud')
+
+    for solicitud in Solicitud.objects.using(alias).all().iterator():
+        solicitud.delegacion_territorial = (
+            solicitud.delegacion.nombre if solicitud.delegacion_id else '')
+        solicitud.tipo_categoria = (
+            solicitud.categoria.nombre if solicitud.categoria_id else '')
+        solicitud.save(
+            using=alias,
+            update_fields=['delegacion_territorial', 'tipo_categoria'],
+        )
+
+
 class Migration(migrations.Migration):
 
     dependencies = [
@@ -36,8 +80,6 @@ class Migration(migrations.Migration):
             name='solicitud',
             options={'ordering': ['-fecha_registro', '-id']},
         ),
-        migrations.RemoveField(model_name='solicitud', name='delegacion_territorial'),
-        migrations.RemoveField(model_name='solicitud', name='tipo_categoria'),
         migrations.AddField(
             model_name='solicitud',
             name='delegacion',
@@ -48,6 +90,19 @@ class Migration(migrations.Migration):
             name='categoria',
             field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.PROTECT, related_name='solicitudes', to='solicitudesApp.categoria'),
         ),
+        migrations.AlterField(
+            model_name='solicitud',
+            name='delegacion_territorial',
+            field=models.CharField(max_length=150, null=True),
+        ),
+        migrations.AlterField(
+            model_name='solicitud',
+            name='tipo_categoria',
+            field=models.CharField(max_length=100, null=True),
+        ),
+        migrations.RunPython(migrar_catalogos_legacy, restaurar_catalogos_legacy),
+        migrations.RemoveField(model_name='solicitud', name='delegacion_territorial'),
+        migrations.RemoveField(model_name='solicitud', name='tipo_categoria'),
         migrations.AlterField(
             model_name='solicitud',
             name='funcionario_responsable',
